@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    <title>Детальный просмотр</title>
+{% endblock %}
+
+{% block content %}
+
+    <div class="card border-success mb-3">
+  <div class="card-header bg-transparent border-success">Задача № {{ task.id }}</div>
+  <div class="card-body text-success">
+    <h5 class="card-title">{{ task.summary }}</h5>
+    <p class="card-text">{{ task.description }}</p>
+      <small class="card-small-text">Статус: {{ task.status.name }}</small><br>
+      <small class="card-small-text">Тип(ы): {{ task.type.name }}</small>
+  </div>
+  <div class="card-footer bg-transparent border-success">
+      <p>Дата создания: {{ task.created_at }}</p>
+      <p>Дата обновления: {{ task.updated_at }}</p>
+  </div>
+</div>
+
+{% endblock %}
+

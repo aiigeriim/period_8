@@ -14,9 +14,8 @@ class TaskForm(forms.Form):
     required = False,
     widget = widgets.Input(attrs={"class": "form-control"})
     )
-    status = forms.ModelChoiceField(queryset=Status.objects.name(),)
-    # status = forms.ModelChoiceField(queryset=Status.objects.all(), label='Статус', required=True, widget=forms.Select(attrs={"class": "form-control"}))
-    type = forms.ModelChoiceField(queryset=Type.objects.all().name, label='Тип(ы)', required=True, widget=forms.Select(attrs={"class": "form-control"}))
+    status = forms.ModelChoiceField(queryset=Status.objects.all(), label='Статус', required=True, widget=forms.Select(attrs={"class": "form-control"}))
+    type = forms.ModelChoiceField(queryset=Type.objects.all(), label='Тип(ы)', required=True, widget=forms.Select(attrs={"class": "form-control"}))
 
 
 class StatusForm(forms.Form):
