@@ -1,0 +1,128 @@
+[
+{
+    "model": "webapp.task",
+    "pk": 1,
+    "fields": {
+        "created_at": "2025-09-08T13:06:06.140Z",
+        "updated_at": "2025-09-08T13:06:06.140Z",
+        "summary": "учиться 4+ часов каждый день",
+        "description": "",
+        "status": 1,
+        "type": 1
+    }
+},
+{
+    "model": "webapp.task",
+    "pk": 2,
+    "fields": {
+        "created_at": "2025-09-08T13:06:35.144Z",
+        "updated_at": "2025-09-08T13:06:35.144Z",
+        "summary": "выявить затыки в темах",
+        "description": "",
+        "status": 2,
+        "type": 3
+    }
+},
+{
+    "model": "webapp.task",
+    "pk": 3,
+    "fields": {
+        "created_at": "2025-09-08T13:07:11.212Z",
+        "updated_at": "2025-09-08T13:11:44.155Z",
+        "summary": "прочитать про gitignore",
+        "description": "файлы которые не нужно отслеживать просачиваются до создания gitignore. Выяснить. Исправить",
+        "status": 3,
+        "type": 3
+    }
+},
+{
+    "model": "webapp.task",
+    "pk": 4,
+    "fields": {
+        "created_at": "2025-09-08T13:09:26.039Z",
+        "updated_at": "2025-09-08T13:09:26.039Z",
+        "summary": "тип и статус",
+        "description": "вынести в админке само название статуса и типа, а не Type object (1) и Status object (2)",
+        "status": 2,
+        "type": 1
+    }
+},
+{
+    "model": "webapp.task",
+    "pk": 5,
+    "fields": {
+        "created_at": "2025-09-08T13:12:17.213Z",
+        "updated_at": "2025-09-08T13:12:17.213Z",
+        "summary": "придумать еще две задачи",
+        "description": "",
+        "status": 3,
+        "type": 1
+    }
+},
+{
+    "model": "webapp.task",
+    "pk": 6,
+    "fields": {
+        "created_at": "2025-09-08T13:13:10.244Z",
+        "updated_at": "2025-09-08T13:13:10.244Z",
+        "summary": "датамиграции",
+        "description": "",
+        "status": 2,
+        "type": 3
+    }
+},
+{
+    "model": "webapp.status",
+    "pk": 1,
+    "fields": {
+        "created_at": "2025-09-08T12:26:31.074Z",
+        "updated_at": "2025-09-08T12:26:31.074Z",
+        "name": "новый"
+    }
+},
+{
+    "model": "webapp.status",
+    "pk": 2,
+    "fields": {
+        "created_at": "2025-09-08T12:26:39.306Z",
+        "updated_at": "2025-09-08T12:26:39.306Z",
+        "name": "в процессе"
+    }
+},
+{
+    "model": "webapp.status",
+    "pk": 3,
+    "fields": {
+        "created_at": "2025-09-08T12:26:44.801Z",
+        "updated_at": "2025-09-08T12:26:44.801Z",
+        "name": "выполнено"
+    }
+},
+{
+    "model": "webapp.type",
+    "pk": 1,
+    "fields": {
+        "created_at": "2025-09-08T12:27:42.653Z",
+        "updated_at": "2025-09-08T12:27:42.653Z",
+        "name": "задача"
+    }
+},
+{
+    "model": "webapp.type",
+    "pk": 2,
+    "fields": {
+        "created_at": "2025-09-08T12:27:48.920Z",
+        "updated_at": "2025-09-08T12:27:48.920Z",
+        "name": "улучшение"
+    }
+},
+{
+    "model": "webapp.type",
+    "pk": 3,
+    "fields": {
+        "created_at": "2025-09-08T12:27:54.449Z",
+        "updated_at": "2025-09-08T12:27:54.449Z",
+        "name": "ошибка"
+    }
+}
+]
