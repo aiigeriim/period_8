@@ -29,6 +29,9 @@ class Status(BaseCreateUpdateModel):
         verbose_name = "Статус"
         verbose_name_plural = "Статусы"
 
+    def __str__(self):
+        return self.name
+
 
 class Type(BaseCreateUpdateModel):
     name = models.CharField(max_length=10, verbose_name="Тип(ы)", unique=True)
@@ -37,6 +40,9 @@ class Type(BaseCreateUpdateModel):
         db_table = "type"
         verbose_name = "Тип"
         verbose_name_plural = "Типы"
+
+    def __str__(self):
+        return self.name
 
 
 

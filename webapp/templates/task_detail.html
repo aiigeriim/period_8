@@ -17,6 +17,8 @@
   <div class="card-footer bg-transparent border-success">
       <p>Дата создания: {{ task.created_at }}</p>
       <p>Дата обновления: {{ task.updated_at }}</p>
+               <a href="{% url 'webapp:update' task.pk %}" title="Редактировать"><i class="bi bi-pencil"></i></a>
+              <a href="{% url 'webapp:delete' task.pk %}" title="Удалить"><i class="bi bi-x-square"></i></a>
   </div>
 </div>
 

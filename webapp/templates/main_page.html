@@ -17,10 +17,9 @@
               <p class="card-text">Статус: {{ task.status.name }}</p>
           </div>
           <div class="card-footer">
-
               <a href="{% url 'webapp:detail' task.pk %}" title="Подробности"><i class="bi bi-envelope-open-heart-fill"></i></a>
-
-
+               <a href="{% url 'webapp:update' task.pk %}" title="Редактировать"><i class="bi bi-pencil"></i></a>
+              <a href="{% url 'webapp:delete' task.pk %}" title="Удалить"><i class="bi bi-x-square"></i></a>
           </div>
         </div>
   </div>

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    <title>Редактировать</title>
+{% endblock %}
+
+{% block content %}
+
+    <h1>Редактировать задачу <span>{{ task.summary }}</span></h1>
+    <form action="" method="post">
+    {% include 'partial/partial_form.html' with btn_text="Редактировать" %}
+    </form>
+
+{% endblock %}
