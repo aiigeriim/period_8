@@ -9,6 +9,6 @@
 {% csrf_token %}
     <p>Вы хотите удалить задачу <span>{{ task.summary }}?</span></p>
         <a class="btn" href="{% url 'webapp:detail' task.pk %}">Отмена</a>
-    <button class="btn btn-outline-warning" type="submit">Да</button>
+    <button class="btn btn-outline-danger" type="submit">Да</button>
     </form>
 {% endblock %}

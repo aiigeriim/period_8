@@ -29,16 +29,16 @@ class CreateTask(View):
     def post(self, request, *args, **kwargs):
         form = TaskForm(request.POST)
         if form.is_valid():
-            summary = form.cleaned_data["summary"]
-            description = form.cleaned_data["description"]
-            type = form.cleaned_data["type"]
-            status = form.cleaned_data["status"]
+            summary = form.cleaned_data.get("summary")
+            description = form.cleaned_data.get("description")
+            status = form.cleaned_data.get("status")
+            types = form.cleaned_data.get("types")
             task = Task.objects.create(
                 summary=summary,
                 description=description,
-                type=type,
                 status=status
             )
+            task.types.set(types)
             return redirect("webapp:detail", pk=task.pk)
         else:
             return render(request,"create_task.html",{"form":form})
@@ -53,11 +53,11 @@ class UpdateTask(View):
         task = get_object_or_404(Task, pk=pk)
         form = TaskForm(request.POST)
         if form.is_valid():
-            task.summary = form.cleaned_data["summary"]
-            task.description = form.cleaned_data["description"]
-            task.type = form.cleaned_data["type"]
-            task.status = form.cleaned_data["status"]
+            task.summary = form.cleaned_data.get("summary")
+            task.description = form.cleaned_data.get("description")
+            task.status = form.cleaned_data.get("status")
             task.save()
+            task.types.set(form.cleaned_data.get("types"))
             return redirect("webapp:detail", pk=task.pk)
         else:
             return render(request,"update_task.html",{"form":form})
@@ -68,7 +68,7 @@ class UpdateTask(View):
         form = TaskForm(initial={
             "summary": task.summary,
             "description": task.description,
-            "type": task.type,
+            "types": task.types.all(),
             "status": task.status,
         })
         return render(request,"update_task.html",{"form":form})

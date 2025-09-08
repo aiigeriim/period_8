@@ -12,7 +12,9 @@
     <h5 class="card-title">{{ task.summary }}</h5>
     <p class="card-text">{{ task.description }}</p>
       <small class="card-small-text">Статус: {{ task.status.name }}</small><br>
-      <small class="card-small-text">Тип(ы): {{ task.type.name }}</small>
+      <small class="card-small-text">Тип(ы):
+            {% for type in task.types.all %} {% if forloop.last %} {{ type }}. {% else %} {{ type }}, {% endif %} {% endfor %}</small>
+
   </div>
   <div class="card-footer bg-transparent border-success">
       <p>Дата создания: {{ task.created_at }}</p>

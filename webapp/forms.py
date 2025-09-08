@@ -15,7 +15,9 @@ class TaskForm(forms.Form):
     widget = widgets.Input(attrs={"class": "form-control"})
     )
     status = forms.ModelChoiceField(queryset=Status.objects.all(), label='Статус', required=True, widget=forms.Select(attrs={"class": "form-control"}))
-    type = forms.ModelChoiceField(queryset=Type.objects.all(), label='Тип(ы)', required=True, widget=forms.Select(attrs={"class": "form-control"}))
+    types = forms.ModelMultipleChoiceField(
+        queryset=Type.objects.all(),
+        widget=forms.CheckboxSelectMultiple())
 
 
 class StatusForm(forms.Form):
