@@ -11,7 +11,7 @@ def transfer_types(apps, schema_editor):
 def rollback_transfer(apps, schema_editor):
     Task = apps.get_model('webapp.Task')
     for task in Task.objects.all():
-        task.type_old.set(task.types.all())
+        task.type_old = task.types.first() if task.types.exists() else None
 
 
 class Migration(migrations.Migration):
