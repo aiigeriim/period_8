@@ -60,7 +60,7 @@ class UpdateTask(View):
             task.types.set(form.cleaned_data.get("types"))
             return redirect("webapp:detail", pk=task.pk)
         else:
-            return render(request,"update_task.html",{"form":form})
+            return render(request,"update_task.html",{"form":form, 'task':task})
 
 
     def get(self, request, *args, **kwargs):
@@ -71,7 +71,7 @@ class UpdateTask(View):
             "types": task.types.all(),
             "status": task.status,
         })
-        return render(request,"update_task.html",{"form":form})
+        return render(request,"update_task.html",{"form":form, 'task':task})
 
 
 class DeleteTask(View):
