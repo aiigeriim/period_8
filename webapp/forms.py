@@ -1,33 +1,16 @@
 from django import forms
 from django.forms import widgets
-from webapp.models import Status, Type, Task
+from webapp.models import Status, Type
 
 
-class TaskForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        for v in self.visible_fields():
-            if not isinstance(v.field.widget, widgets.CheckboxSelectMultiple):
-                v.field.widget.attrs['class'] = 'form-control'
-
-
-    class Meta:
-        model = Task
-        fields = ['summary', 'description', 'status', 'types']
-        widgets = {
-            'types': forms.CheckboxSelectMultiple(),
-        }
-
-
-    def clean_description(self):
-        description = self.cleaned_data['description']
-        if description == '':
-            raise forms.ValidationError('Введите подробности задачи')
-        return description
-
-    def clean_summary(self):
-        summary = self.cleaned_data['summary']
-        if len(summary) < 3:
-            raise forms.ValidationError('Введите полное название задачи')
-        return summary
-
+class TaskForm(forms.Form):
+    summary = forms.CharField(label='Название', required = True,
+                                widget = widgets.Input(attrs={"class": "form-control"}))
+    description = forms.CharField(label='Описание', required = False,
+                                    widget = widgets.Textarea(attrs={"class": "form-control"}))
+    status = forms.ModelChoiceField(queryset=Status.objects.all(),
+                                    label='Статус', required=True,
+                                    widget=forms.Select(attrs={"class": "form-control"}))
+    types = forms.ModelMultipleChoiceField(queryset=Type.objects.all(),
+                                           label='Тип(ы)',
+                                           widget=forms.CheckboxSelectMultiple())
