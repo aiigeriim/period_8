@@ -1,0 +1,29 @@
+from webapp.models import Task
+from webapp.models import Type
+from django.utils import timezone
+from datetime import timedelta
+from django.db.models import Q, F
+
+
+1
+Task.objects.filter(Q(updated_at__gt=timezone.now() - timedelta(days=30)) & Q(status__name='выполнено'))
+
+2
+Task.objects.filter(types__name__in=("задача", "ошибка"), status__name__in=("в процессе", "выполнено"))
+
+3
+Task.objects.filter(Q(summary__iexact="bug") | Q(types__name="ошибка")).exclude(status__name="выполнено")
+
+
+бонус
+
+1
+Task.objects.values_list("id", "summary", "types__name", "status__name")
+
+2
+Task.objects.filter(summary=F("description"))
+
+3
+types = Type.objects.annotate(task_count=Count('task_set'))
+for type in types:
+    print(type.name, '-', type.task_count)
