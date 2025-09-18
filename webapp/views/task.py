@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.views import View
-from django.views.generic import TemplateView, FormView, ListView, DetailView, CreateView
+from django.views.generic import TemplateView, FormView, ListView, DetailView, CreateView, UpdateView, DeleteView
 from webapp.forms import TaskForm
 from webapp.models import Task
 
@@ -20,6 +20,7 @@ class TaskDetail(DetailView):
     def get_queryset(self):
         return Task.objects.all()
 
+
 class TaskCreate(CreateView):
     template_name = "task/create_task.html"
     form_class = TaskForm
@@ -29,46 +30,20 @@ class TaskCreate(CreateView):
         return reverse('webapp:detail', kwargs={'pk': self.object.pk})
 
 
-class TaskUpdate(FormView):
+class TaskUpdate(UpdateView):
+    model = Task
     template_name = "task/update_task.html"
     form_class = TaskForm
-
-    def dispatch(self, request, *args, **kwargs):
-        self.task = Task.objects.get(pk=self.kwargs["pk"])
-        return super().dispatch(request, *args, **kwargs)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["task"] = self.task
-        return context
-
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        kwargs["instance"] = self.task
-        return kwargs
-
-    def form_valid(self, form):
-        self.task = form.save()
-        return super().form_valid(form)
+    context_object_name = 'task'
 
     def get_success_url(self):
-        return reverse('webapp:detail', kwargs={'pk': self.task.pk})
-
-    def get_object(self):
-        pk = self.kwargs["pk"]
-        return get_object_or_404(Task, pk=pk)
+        return reverse('webapp:detail', kwargs={'pk': self.object.pk})
 
 
-class TaskDelete(View):
-    def post(self, request, *args, **kwargs):
-        task = get_object_or_404(Task, pk=kwargs.get("pk"))
-        task.delete()
-        return redirect("webapp:main")
-
-    def get(self, request, *args, **kwargs):
-        task = get_object_or_404(Task, pk=kwargs.get("pk"))
-        return render(request, "task/delete_task.html", {"task":task})
-
-
+class TaskDelete(DeleteView):
+    template_name = "task/delete_task.html"
+    model = Task
+    context_object_name = 'task'
+    success_url = reverse_lazy('webapp:main')
 
 
