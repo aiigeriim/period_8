@@ -5,11 +5,8 @@ from django.views.generic import TemplateView, FormView
 from webapp.forms import TaskForm
 from webapp.models import Task
 
-
-# Create your views here.
-
 class TaskList(TemplateView):
-    template_name = "main_page.html"
+    template_name = "task/main_page.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -17,16 +14,15 @@ class TaskList(TemplateView):
         return context
 
 class TaskDetail(TemplateView):
-    template_name = "task_detail.html"
+    template_name = "task/task_detail.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["task"] = Task.objects.get(pk=self.kwargs["pk"])
         return context
 
-
 class TaskCreate(FormView):
-    template_name = "create_task.html"
+    template_name = "task/create_task.html"
     form_class = TaskForm
     model = Task
 
@@ -39,7 +35,7 @@ class TaskCreate(FormView):
 
 
 class TaskUpdate(FormView):
-    template_name = "update_task.html"
+    template_name = "task/update_task.html"
     form_class = TaskForm
 
     def dispatch(self, request, *args, **kwargs):
@@ -76,7 +72,7 @@ class TaskDelete(View):
 
     def get(self, request, *args, **kwargs):
         task = get_object_or_404(Task, pk=kwargs.get("pk"))
-        return render(request, "delete_task.html", {"task":task})
+        return render(request, "task/delete_task.html", {"task":task})
 
 
 
