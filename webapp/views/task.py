@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.views import View
-from django.views.generic import TemplateView, FormView, ListView
+from django.views.generic import TemplateView, FormView, ListView, DetailView, CreateView
 from webapp.forms import TaskForm
 from webapp.models import Task
 
@@ -14,25 +14,19 @@ class TaskList(ListView):
         return Task.objects.order_by('-created_at')
 
 
-class TaskDetail(TemplateView):
+class TaskDetail(DetailView):
     template_name = "task/task_detail.html"
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["task"] = Task.objects.get(pk=self.kwargs["pk"])
-        return context
+    def get_queryset(self):
+        return Task.objects.all()
 
-class TaskCreate(FormView):
+class TaskCreate(CreateView):
     template_name = "task/create_task.html"
     form_class = TaskForm
     model = Task
 
-    def form_valid(self, form):
-        self.task = form.save()
-        return super().form_valid(form)
-
     def get_success_url(self):
-        return reverse('webapp:detail', kwargs={'pk': self.task.pk})
+        return reverse('webapp:detail', kwargs={'pk': self.object.pk})
 
 
 class TaskUpdate(FormView):
