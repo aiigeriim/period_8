@@ -1,17 +1,18 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.views import View
-from django.views.generic import TemplateView, FormView
+from django.views.generic import TemplateView, FormView, ListView
 from webapp.forms import TaskForm
 from webapp.models import Task
 
-class TaskList(TemplateView):
+class TaskList(ListView):
     template_name = "task/main_page.html"
+    context_object_name = "tasks"
+    model = Task
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["tasks"] = Task.objects.all()
-        return context
+    def get_queryset(self):
+        return Task.objects.order_by('-created_at')
+
 
 class TaskDetail(TemplateView):
     template_name = "task/task_detail.html"
