@@ -8,7 +8,7 @@ from webapp.models import Task
 
 # Create your views here.
 
-class MainPage(TemplateView):
+class TaskList(TemplateView):
     template_name = "main_page.html"
 
     def get_context_data(self, **kwargs):
@@ -16,7 +16,7 @@ class MainPage(TemplateView):
         context["tasks"] = Task.objects.all()
         return context
 
-class Detail(TemplateView):
+class TaskDetail(TemplateView):
     template_name = "task_detail.html"
 
     def get_context_data(self, **kwargs):
@@ -25,9 +25,10 @@ class Detail(TemplateView):
         return context
 
 
-class CreateTask(FormView):
+class TaskCreate(FormView):
     template_name = "create_task.html"
     form_class = TaskForm
+    model = Task
 
     def form_valid(self, form):
         self.task = form.save()
@@ -37,7 +38,7 @@ class CreateTask(FormView):
         return reverse('webapp:detail', kwargs={'pk': self.task.pk})
 
 
-class UpdateTask(FormView):
+class TaskUpdate(FormView):
     template_name = "update_task.html"
     form_class = TaskForm
 
@@ -67,7 +68,7 @@ class UpdateTask(FormView):
         return get_object_or_404(Task, pk=pk)
 
 
-class DeleteTask(View):
+class TaskDelete(View):
     def post(self, request, *args, **kwargs):
         task = get_object_or_404(Task, pk=kwargs.get("pk"))
         task.delete()
