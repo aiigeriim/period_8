@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    <title>Детальный просмотр</title>
+{% endblock %}
+
+{% block content %}
+
+    <div class="card border-success mb-3">
+  <div class="card-header bg-transparent border-success">Проект № {{ project.id }}</div>
+  <div class="card-body text-success">
+    <h5 class="card-title">{{ project.summary }}</h5>
+    <p class="card-text">{{ project.description }}</p>
+      <small class="card-small-text">Дата начала: {{ project.start_date }}</small><br>
+      <small class="card-small-text">Дата окончания: {{ project.end_date }}</small>
+
+  </div>
+  <div class="card-footer bg-transparent border-success">
+      <p>Дата создания: {{ project.created_at }}</p>
+      <p>Дата обновления: {{ project.updated_at }}</p>
+               <a href="{% url 'webapp:update_project' project.pk %}" title="Редактировать"><i class="bi bi-pencil"></i></a>
+              <a href="{% url 'webapp:delete_project' project.pk %}" title="Удалить"><i class="bi bi-x-square"></i></a>
+  </div>
+</div>
+
+{% endblock %}
+

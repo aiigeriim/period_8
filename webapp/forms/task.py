@@ -1,15 +1,9 @@
 from django import forms
-from django.forms import widgets
+from webapp.forms.base_form import BaseForm
 from webapp.models import Task
 
 
-class TaskForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        for v in self.visible_fields():
-            if not isinstance(v.field.widget, widgets.CheckboxSelectMultiple):
-                v.field.widget.attrs['class'] = 'form-control'
-
+class TaskForm(BaseForm):
 
     class Meta:
         model = Task
@@ -17,7 +11,6 @@ class TaskForm(forms.ModelForm):
         widgets = {
             'types': forms.CheckboxSelectMultiple(),
         }
-
 
     def clean_description(self):
         description = self.cleaned_data['description']
@@ -30,3 +23,4 @@ class TaskForm(forms.ModelForm):
         if len(summary) < 3:
             raise forms.ValidationError('Введите полное название задачи')
         return summary
+

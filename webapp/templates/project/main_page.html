@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    <title>Главная</title>
+{% endblock %}
+
+{% block content %}
+    <div class="row mt-3">
+    {% for project in projects %}
+      <div class="card border-success m-3" style="max-width: 18rem;">
+  <div class="card-header bg-transparent border-success">Дэдлайн: {{ project.end_date }}</div>
+  <div class="card-body text-success">
+    <h5 class="card-title">{{ project.summary }}</h5>
+    <p class="card-text">Дата начала: {{ project.start_date }}</p>
+  </div>
+  <div class="card-footer bg-transparent border-success">
+      <a href="{% url 'webapp:project_detail' project.pk %}" title="Подробности"><i class="bi bi-envelope-open-heart-fill"></i></a>
+               <a href="{% url 'webapp:update_project' project.pk %}" title="Редактировать"><i class="bi bi-pencil"></i></a>
+              <a href="{% url 'webapp:delete_project' project.pk %}" title="Удалить"><i class="bi bi-x-square"></i></a>
+  </div>
+</div>
+    {% empty %}
+    <p>Проектов пока нет</p>
+    {% endfor %}
+    </div>
+
+
+
+{% endblock %}
+
+
+

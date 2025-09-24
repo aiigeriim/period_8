@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 from webapp.models import BaseCreateUpdateModel
 
@@ -18,3 +19,5 @@ class Project(BaseCreateUpdateModel):
     def __str__(self):
         return self.summary
 
+    def get_absolute_url(self):
+        return reverse('webapp:project_detail', kwargs={'pk': self.pk})
