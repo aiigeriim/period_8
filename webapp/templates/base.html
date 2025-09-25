@@ -26,13 +26,9 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
-        <a class="nav-link active" aria-current="page" href="{% url 'webapp:create' %}">Создать задачу</a>
           <a class="nav-link active" aria-current="page" href="{% url 'webapp:create_project' %}">Создать проект</a>
 
           {% block nav %}
-{#        <a class="nav-link" href="#">Рекомендуемые</a>#}
-{#        <a class="nav-link" href="#">Цена</a>#}
-{#        <a class="nav-link disabled">Отключенная</a>#}
           {% endblock %}
       </div>
     </div>

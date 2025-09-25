@@ -6,22 +6,44 @@
 
 {% block content %}
 
-    <div class="card border-success mb-3">
-  <div class="card-header bg-transparent border-success">Проект № {{ project.id }}</div>
+    <div class="card text-success mb-3">
+  <div class="card-header border-success">Проект № {{ project.id }}</div>
   <div class="card-body text-success">
     <h5 class="card-title">{{ project.summary }}</h5>
     <p class="card-text">{{ project.description }}</p>
-      <small class="card-small-text">Дата начала: {{ project.start_date }}</small><br>
-      <small class="card-small-text">Дата окончания: {{ project.end_date }}</small>
+      <p class="card-small-text">Дата начала: {{ project.start_date }}</p>
+      <p class="card-small-text">Дата окончания: {{ project.end_date }}</p>
 
   </div>
   <div class="card-footer bg-transparent border-success">
-      <p>Дата создания: {{ project.created_at }}</p>
-      <p>Дата обновления: {{ project.updated_at }}</p>
-               <a href="{% url 'webapp:update_project' project.pk %}" title="Редактировать"><i class="bi bi-pencil"></i></a>
-              <a href="{% url 'webapp:delete_project' project.pk %}" title="Удалить"><i class="bi bi-x-square"></i></a>
+      <small>Дата создания: {{ project.created_at }}</small><br>
+      <small>Дата обновления: {{ project.updated_at }}</small>
+      <hr>
+               <a href="{% url 'webapp:update_project' project.pk %}" title="Редактировать проект"><i class="bi bi-pencil"></i></a>
+      <a href="{% url 'webapp:create' project.pk %}" title="Добавить новую задачу"><i class="bi bi-plus-square text-success"></i></a>
+              <a href="{% url 'webapp:delete_project' project.pk %}" title="Удалить проект"><i class="bi bi-x-square text-danger"></i></a>
   </div>
 </div>
+       <h5 class="text-success" style="text-align: center">Задачи</h5>
+    <div class="row mt-3">
+        {% for task in tasks %}
+            <div class="card border-success m-3" style="max-width: 18rem;">
+  <div class="card-body text-success">
+    <h5 class="card-title">{{ task.summary }}</h5>
+      <small class="card-text">Тип(ы):
+            {% for type in task.types.all %} {% if forloop.last %} {{ type }}. {% else %} {{ type }}, {% endif %} {% endfor %}</small><br>
+              <small class="card-text">Статус: {{ task.status.name }}</small>
+  </div>
+  <div class="card-footer bg-transparent border-success">
+       <a href="{% url 'webapp:detail' task.pk %}" title="Подробности"><i class="bi bi-info-square"></i></a>
+      <a href="{% url 'webapp:update' task.pk %}" title="Редактировать"><i class="bi bi-pencil"></i></a>
+      <a href="{% url 'webapp:delete' task.pk %}" title="Удалить"><i class="bi bi-x-square text-danger"></i></a>
+  </div>
+</div>
+        {% empty %}
+<p>Задач пока нет</p>
+     {% endfor %}
+    </div>
 
 {% endblock %}
 

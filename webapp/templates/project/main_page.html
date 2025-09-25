@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block content %}
+    <h5 class="text-success" style="text-align: center">ПРОЕКТЫ</h5>
     <div class="row mt-3">
     {% for project in projects %}
       <div class="card border-success m-3" style="max-width: 18rem;">
@@ -14,9 +15,9 @@
     <p class="card-text">Дата начала: {{ project.start_date }}</p>
   </div>
   <div class="card-footer bg-transparent border-success">
-      <a href="{% url 'webapp:project_detail' project.pk %}" title="Подробности"><i class="bi bi-envelope-open-heart-fill"></i></a>
+      <a href="{% url 'webapp:project_detail' project.pk %}" title="Подробности"><i class="bi bi-info-square"></i></a>
                <a href="{% url 'webapp:update_project' project.pk %}" title="Редактировать"><i class="bi bi-pencil"></i></a>
-              <a href="{% url 'webapp:delete_project' project.pk %}" title="Удалить"><i class="bi bi-x-square"></i></a>
+              <a href="{% url 'webapp:delete_project' project.pk %}" title="Удалить"><i class="bi bi-x-square text-danger"></i></a>
   </div>
 </div>
     {% empty %}

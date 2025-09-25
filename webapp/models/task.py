@@ -11,6 +11,8 @@ class Task(BaseCreateUpdateModel):
                                verbose_name="Статус", related_name="tasks")
     types = models.ManyToManyField("webapp.Type", verbose_name="Тип(ы)",
                                    related_name="task_set")
+    project = models.ForeignKey("webapp.Project", related_name="tasks", on_delete=models.CASCADE, verbose_name="Проект")
+
 
     class Meta:
         db_table = 'task'
@@ -22,4 +24,5 @@ class Task(BaseCreateUpdateModel):
 
 
     def get_absolute_url(self):
-        return reverse('webapp:detail', kwargs={'pk': self.pk})
+        return reverse('webapp:project_detail', kwargs={'pk': self.project_id})
+
