@@ -1,12 +1,10 @@
 from urllib.parse import urlencode
-
 from django.db.models import Q
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-
 from webapp.forms import SearchForm
 from webapp.forms.project import ProjectForm
-from webapp.models import Project, Task
+from webapp.models import Project
 
 
 class ProjectList(ListView):
