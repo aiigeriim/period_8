@@ -3,6 +3,7 @@ from webapp.models import Type
 from django.utils import timezone
 from datetime import timedelta
 from django.db.models import Q, F
+from django.db.models import Count
 
 
 1

@@ -14,8 +14,8 @@ class TaskForm(BaseForm):
 
     def clean_description(self):
         description = self.cleaned_data['description']
-        if description == '':
-            raise forms.ValidationError('Введите подробности задачи')
+        if description and len(description) < 10:
+            raise forms.ValidationError('Описание задачи должно быть не менее 10 символов')
         return description
 
     def clean_summary(self):
