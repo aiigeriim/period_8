@@ -62,10 +62,6 @@ class UpdateTask(FormView):
     def get_success_url(self):
         return reverse('webapp:detail', kwargs={'pk': self.task.pk})
 
-    def get_object(self):
-        pk = self.kwargs["pk"]
-        return get_object_or_404(Task, pk=pk)
-
 
 class DeleteTask(View):
     def post(self, request, *args, **kwargs):
