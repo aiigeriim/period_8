@@ -82,9 +82,9 @@
     "pk": 6,
     "fields": {
         "created_at": "2025-09-08T13:13:10.244Z",
-        "updated_at": "2025-09-08T19:05:19.077Z",
+        "updated_at": "2025-09-27T16:46:00.573Z",
         "summary": "датамиграции",
-        "description": "просмотреть, потестить",
+        "description": "просмотреть, потестить jhjh",
         "status": 3,
         "project": 3,
         "types": [
@@ -179,21 +179,6 @@
         "summary": "тест валидатора",
         "description": "успешно",
         "status": 2,
-        "project": 1,
-        "types": [
-            2
-        ]
-    }
-},
-{
-    "model": "webapp.task",
-    "pk": 18,
-    "fields": {
-        "created_at": "2025-09-17T09:05:11.846Z",
-        "updated_at": "2025-09-17T09:07:21.966Z",
-        "summary": "bug",
-        "description": "тест запроса",
-        "status": 1,
         "project": 1,
         "types": [
             2
@@ -360,6 +345,21 @@
         "description": "but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example,",
         "status": 2,
         "project": 11,
+        "types": [
+            1
+        ]
+    }
+},
+{
+    "model": "webapp.task",
+    "pk": 49,
+    "fields": {
+        "created_at": "2025-09-27T16:14:21.316Z",
+        "updated_at": "2025-09-27T16:14:21.316Z",
+        "summary": "задача",
+        "description": "задача создана в импульсивном состоянии когда пальцы печатали быстрее чем думал мозг",
+        "status": 2,
+        "project": 15,
         "types": [
             1
         ]
@@ -544,11 +544,23 @@
     "pk": 13,
     "fields": {
         "created_at": "2025-09-25T18:10:10.343Z",
-        "updated_at": "2025-09-25T18:10:10.343Z",
+        "updated_at": "2025-09-25T19:33:10.430Z",
         "summary": "один",
-        "description": "but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example,",
+        "description": "but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example",
         "start_date": "2025-09-11",
         "end_date": "2025-09-12"
+    }
+},
+{
+    "model": "webapp.project",
+    "pk": 15,
+    "fields": {
+        "created_at": "2025-09-27T16:12:58.512Z",
+        "updated_at": "2025-09-27T16:12:58.512Z",
+        "summary": "проект",
+        "description": "проект установлен на ровном месте пока не совершил прыжок",
+        "start_date": "2022-02-10",
+        "end_date": null
     }
 }
 ]

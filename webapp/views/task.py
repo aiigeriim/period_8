@@ -10,7 +10,7 @@ class TaskDetail(DetailView):
     model = Task
 
 
-class TaskCreate(CreateView, LoginRequiredMixin):
+class TaskCreate(LoginRequiredMixin, CreateView):
     template_name = "task/create_task.html"
     form_class = TaskForm
 
@@ -20,13 +20,13 @@ class TaskCreate(CreateView, LoginRequiredMixin):
         return super().form_valid(form)
 
 
-class TaskUpdate(UpdateView, LoginRequiredMixin):
+class TaskUpdate(LoginRequiredMixin, UpdateView):
     model = Task
     template_name = "task/update_task.html"
     form_class = TaskForm
 
 
-class TaskDelete(DeleteView, LoginRequiredMixin):
+class TaskDelete(LoginRequiredMixin, DeleteView):
     model = Task
 
     def get(self, request, *args, **kwargs):
