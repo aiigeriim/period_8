@@ -17,6 +17,7 @@ class TaskCreate(LoginRequiredMixin, CreateView):
     def form_valid(self, form, *args, **kwargs):
         project = get_object_or_404(Project, pk=self.kwargs['pk'])
         form.instance.project = project
+        form.instance.author = self.request.user
         return super().form_valid(form)
 
 

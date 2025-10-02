@@ -16,6 +16,7 @@
   <div class="card-body text-success">
     <h5 class="card-title">{{ project.summary }}</h5>
     <p class="card-text">Дата начала: {{ project.start_date }}</p>
+      <small class="card-text">Автор: {{ project.author.username }}</small>
   </div>
   <div class="card-footer bg-transparent border-success">
       <a href="{% url 'webapp:project_detail' project.pk %}" title="Подробности"><i class="bi bi-info-square"></i></a>
