@@ -11,6 +11,8 @@ class Project(BaseCreateUpdateModel):
     end_date = models.DateField(verbose_name="Дата окончания", null=True, blank=True)
     author = models.ForeignKey(get_user_model(), related_name='projects', on_delete=models.SET_DEFAULT, default=1,
                                verbose_name="Автор")
+    participants = models.ManyToManyField(get_user_model(), verbose_name="Участник(и)",
+                                   related_name="projects_part", blank=True)
 
     class Meta:
         db_table = "project"

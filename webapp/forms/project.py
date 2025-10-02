@@ -1,5 +1,4 @@
 from django.forms.widgets import DateInput
-
 from webapp.forms.base_form import BaseForm
 from webapp.models import Project
 

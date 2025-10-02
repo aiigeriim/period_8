@@ -1,13 +1,17 @@
 from urllib.parse import urlencode
 
+from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
+from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from webapp.forms import SearchForm
+from webapp.forms import SearchForm, ProjectParticipantsForm
 from webapp.forms.project import ProjectForm
 from webapp.models import Project
 
+User = get_user_model()
 
 class ProjectList(ListView):
     template_name = "project/main_page.html"
@@ -60,7 +64,22 @@ class ProjectCreate(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.author = self.request.user
+        form.save()
+        form.instance.participants.add(self.request.user)
         return super().form_valid(form)
+
+
+class ProjectAddParticipants(LoginRequiredMixin, CreateView):
+    template_name = "project/add_participant.html"
+    form_class = ProjectParticipantsForm
+    queryset = User.objects.all()
+
+
+    def post(self, request, *args, **kwargs):
+        project = get_object_or_404(Project, pk=kwargs['pk'])
+        participants = self.request.POST.getlist('participants')
+        project.participants.set(participants)
+        return HttpResponseRedirect(project.get_absolute_url())
 
 
 class ProjectUpdate(LoginRequiredMixin, UpdateView):
