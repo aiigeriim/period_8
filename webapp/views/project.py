@@ -1,7 +1,7 @@
 from urllib.parse import urlencode
 
 from django.contrib.auth import get_user_model
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
@@ -69,10 +69,13 @@ class ProjectCreate(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class ProjectAddParticipants(LoginRequiredMixin, CreateView):
+class ProjectAddParticipants(PermissionRequiredMixin, CreateView):
     template_name = "project/add_participant.html"
     form_class = ProjectParticipantsForm
     queryset = User.objects.all()
+    model = Project
+
+    permission_required = 'webapp.add_participants'
 
 
     def post(self, request, *args, **kwargs):
@@ -81,17 +84,33 @@ class ProjectAddParticipants(LoginRequiredMixin, CreateView):
         project.participants.set(participants)
         return HttpResponseRedirect(project.get_absolute_url())
 
+    def has_permission(self):
+        project = Project.objects.get(pk=self.kwargs['pk'])
+        return super().has_permission() and self.request.user == project.author
 
-class ProjectUpdate(LoginRequiredMixin, UpdateView):
+
+class ProjectUpdate(PermissionRequiredMixin, UpdateView):
     model = Project
     template_name = "project/update_project.html"
     form_class = ProjectForm
 
+    permission_required = 'webapp.change_project'
 
-class ProjectDelete(LoginRequiredMixin, DeleteView):
+    def has_permission(self):
+        project = Project.objects.get(pk=self.kwargs['pk'])
+        return super().has_permission() and self.request.user == project.author
+
+
+class ProjectDelete(PermissionRequiredMixin, DeleteView):
     template_name = "project/delete_project.html"
     model = Project
     success_url = reverse_lazy('webapp:project_list')
+
+    permission_required = 'webapp.delete_project'
+
+    def has_permission(self):
+        project = Project.objects.get(pk=self.kwargs['pk'])
+        return super().has_permission() and self.request.user == project.author
 
 
 

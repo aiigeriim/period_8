@@ -18,6 +18,7 @@ class Project(BaseCreateUpdateModel):
         db_table = "project"
         verbose_name = "Проект"
         verbose_name_plural = "Проекты"
+        permissions = [("add_participants", "Can add participants"), ("delete_participants", "Can delete participants")]
 
     def __str__(self):
         return self.summary

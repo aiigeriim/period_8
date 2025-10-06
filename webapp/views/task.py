@@ -1,4 +1,4 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.shortcuts import get_object_or_404
 from django.views.generic import DetailView, CreateView, UpdateView, DeleteView
 from webapp.forms import TaskForm
@@ -10,9 +10,15 @@ class TaskDetail(DetailView):
     model = Task
 
 
-class TaskCreate(LoginRequiredMixin, CreateView):
+class TaskCreate(PermissionRequiredMixin, CreateView):
     template_name = "task/create_task.html"
     form_class = TaskForm
+
+    permission_required = 'webapp.add_task'
+
+    def has_permission(self):
+        project = get_object_or_404(Project, pk=self.kwargs['pk'])
+        return super().has_permission() and self.request.user == project.author
 
     def form_valid(self, form, *args, **kwargs):
         project = get_object_or_404(Project, pk=self.kwargs['pk'])
@@ -21,14 +27,26 @@ class TaskCreate(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class TaskUpdate(LoginRequiredMixin, UpdateView):
+class TaskUpdate(PermissionRequiredMixin, UpdateView):
     model = Task
     template_name = "task/update_task.html"
     form_class = TaskForm
 
+    permission_required = 'webapp.change_task'
 
-class TaskDelete(LoginRequiredMixin, DeleteView):
+    def has_permission(self):
+        task = get_object_or_404(Task, pk=self.kwargs['pk'])
+        return super().has_permission() and self.request.user == task.project.author
+
+
+class TaskDelete(PermissionRequiredMixin, DeleteView):
     model = Task
+
+    permission_required = 'webapp.delete_task'
+
+    def has_permission(self):
+        task = get_object_or_404(Task, pk=self.kwargs['pk'])
+        return super().has_permission() and self.request.user == task.project.author
 
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
