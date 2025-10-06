@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.views.generic import DetailView, CreateView, UpdateView, DeleteView
 from webapp.forms import TaskForm
@@ -41,18 +42,26 @@ class TaskUpdate(PermissionRequiredMixin, UpdateView):
 
 class TaskDelete(PermissionRequiredMixin, DeleteView):
     model = Task
+    template_name = "task/delete_task.html"
 
     permission_required = 'webapp.delete_task'
+
 
     def has_permission(self):
         task = get_object_or_404(Task, pk=self.kwargs['pk'])
         return super().has_permission() and self.request.user == task.project.author
 
-    def get(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         self.object = self.get_object()
-        return self.delete(request, *args, **kwargs)
+        self.object.is_deleted = True
+        self.object.save()
+        return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
         return self.object.get_absolute_url()
+
+
+
+
 
 

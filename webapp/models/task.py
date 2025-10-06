@@ -16,6 +16,7 @@ class Task(BaseCreateUpdateModel):
     project = models.ForeignKey("webapp.Project", related_name="tasks", on_delete=models.CASCADE, verbose_name="Проект")
     author = models.ForeignKey(get_user_model(), related_name='tasks', on_delete=models.SET_DEFAULT, default=1,
                                verbose_name="Автор")
+    is_deleted = models.BooleanField(default=False, verbose_name="Удалена")
 
 
     class Meta:
@@ -26,6 +27,7 @@ class Task(BaseCreateUpdateModel):
 
     def __str__(self):
         return self.summary
+
 
     def get_absolute_url(self):
         return reverse('webapp:project_detail', kwargs={'pk': self.project_id})
