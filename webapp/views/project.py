@@ -7,8 +7,8 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from webapp.forms import SearchForm, ProjectParticipantsForm
-from webapp.forms.project import ProjectForm
+
+from webapp.forms import SearchForm, ProjectParticipantsForm, ProjectForm
 from webapp.models import Project
 
 User = get_user_model()

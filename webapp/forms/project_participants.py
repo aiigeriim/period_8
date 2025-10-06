@@ -1,5 +1,6 @@
 from django import forms
-from webapp.forms.base_form import BaseForm
+
+from webapp.forms import BaseForm
 from webapp.models import Project
 
 

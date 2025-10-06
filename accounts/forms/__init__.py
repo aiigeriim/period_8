@@ -1,1 +1,1 @@
-from .user_create_form import MyUserCreationForm
+from accounts.forms.user_create_form import MyUserCreationForm

@@ -1,14 +1,29 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
+from django.core.exceptions import ValidationError
 
 User = get_user_model()
 
 
 class MyUserCreationForm(UserCreationForm):
-    # email = forms.EmailField(required=True)
 
     class Meta(UserCreationForm.Meta):
         fields = ['username', 'password1', 'password2', 'first_name', 'last_name', 'email']
+
+
+    def clean(self):
+        cleaned_data = super().clean()
+        first_name = cleaned_data.get('first_name')
+        last_name = cleaned_data.get('last_name')
+        if not first_name and not last_name:
+            raise ValidationError('Please enter your first name or last name.')
+        return cleaned_data
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if not email:
+            raise ValidationError('Please enter your email address.')
+        return email
 
 
 
