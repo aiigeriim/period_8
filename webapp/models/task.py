@@ -14,8 +14,6 @@ class Task(BaseCreateUpdateModel):
     types = models.ManyToManyField("webapp.Type", verbose_name="Тип(ы)",
                                    related_name="task_set")
     project = models.ForeignKey("webapp.Project", related_name="tasks", on_delete=models.CASCADE, verbose_name="Проект")
-    author = models.ForeignKey(get_user_model(), related_name='tasks', on_delete=models.SET_DEFAULT, default=1,
-                               verbose_name="Автор")
     is_deleted = models.BooleanField(default=False, verbose_name="Удалена")
 
     class Meta:

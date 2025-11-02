@@ -60,24 +60,31 @@ class ProjectDetail(DetailView):
         return context
 
 
-class ProjectCreate(LoginRequiredMixin, CreateView):
+class ProjectCreate(PermissionRequiredMixin, CreateView):
     template_name = "project/create_project.html"
     form_class = ProjectForm
+    permission_required = 'webapp.add_project'
 
     def form_valid(self, form):
-        form.instance.author = self.request.user
         form.save()
         form.instance.participants.add(self.request.user)
         return super().form_valid(form)
 
+    def has_permission(self):
+        return super().has_permission()
 
-class ProjectAddParticipants(PermissionRequiredMixin, CreateView):
+
+class ProjectAddParticipants(PermissionRequiredMixin, UpdateView):
     template_name = "project/add_participant.html"
     form_class = ProjectParticipantsForm
-    queryset = User.objects.all()
     model = Project
 
     permission_required = 'webapp.add_participants'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['users'] = User.objects.all()
+        return context
 
     def post(self, request, *args, **kwargs):
         project = get_object_or_404(Project, pk=kwargs['pk'])
@@ -86,8 +93,7 @@ class ProjectAddParticipants(PermissionRequiredMixin, CreateView):
         return HttpResponseRedirect(project.get_absolute_url())
 
     def has_permission(self):
-        project = Project.objects.get(pk=self.kwargs['pk'])
-        return super().has_permission() and self.request.user == project.author
+        return super().has_permission()
 
 
 class ProjectUpdate(PermissionRequiredMixin, UpdateView):
@@ -98,8 +104,7 @@ class ProjectUpdate(PermissionRequiredMixin, UpdateView):
     permission_required = 'webapp.change_project'
 
     def has_permission(self):
-        project = Project.objects.get(pk=self.kwargs['pk'])
-        return super().has_permission() and self.request.user == project.author
+        return super().has_permission()
 
 
 class ProjectDelete(PermissionRequiredMixin, DeleteView):
@@ -110,5 +115,4 @@ class ProjectDelete(PermissionRequiredMixin, DeleteView):
     permission_required = 'webapp.delete_project'
 
     def has_permission(self):
-        project = Project.objects.get(pk=self.kwargs['pk'])
-        return super().has_permission() and self.request.user == project.author
+        return super().has_permission()

@@ -14,11 +14,11 @@ class MyUserCreationForm(UserCreationForm):
         first_name = cleaned_data.get('first_name')
         last_name = cleaned_data.get('last_name')
         if not first_name and not last_name:
-            raise ValidationError('Please enter your first name or last name.')
+            self.add_error('first_name', 'Please enter your first name or last name.')
         return cleaned_data
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
         if not email:
-            raise ValidationError('Please enter your email address.')
+            self.add_error('email', 'Please enter your femail.')
         return email
