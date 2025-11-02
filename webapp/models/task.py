@@ -18,17 +18,13 @@ class Task(BaseCreateUpdateModel):
                                verbose_name="Автор")
     is_deleted = models.BooleanField(default=False, verbose_name="Удалена")
 
-
     class Meta:
         db_table = 'task'
         verbose_name = "Задача"
         verbose_name_plural = "Задачи"
 
-
     def __str__(self):
         return self.summary
 
-
     def get_absolute_url(self):
         return reverse('webapp:project_detail', kwargs={'pk': self.project_id})
-

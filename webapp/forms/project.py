@@ -4,7 +4,6 @@ from webapp.models import Project
 
 
 class ProjectForm(BaseForm):
-
     class Meta:
         model = Project
         fields = ['summary', 'description', 'start_date', 'end_date']

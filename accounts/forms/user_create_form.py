@@ -6,10 +6,8 @@ User = get_user_model()
 
 
 class MyUserCreationForm(UserCreationForm):
-
     class Meta(UserCreationForm.Meta):
         fields = ['username', 'password1', 'password2', 'first_name', 'last_name', 'email']
-
 
     def clean(self):
         cleaned_data = super().clean()
@@ -24,6 +22,3 @@ class MyUserCreationForm(UserCreationForm):
         if not email:
             raise ValidationError('Please enter your email address.')
         return email
-
-
-

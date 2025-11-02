@@ -5,7 +5,6 @@ from webapp.models import Project
 
 
 class ProjectParticipantsForm(BaseForm):
-
     class Meta:
         model = Project
         fields = ['participants']

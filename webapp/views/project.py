@@ -13,6 +13,7 @@ from webapp.models import Project
 
 User = get_user_model()
 
+
 class ProjectList(ListView):
     template_name = "project/main_page.html"
     context_object_name = "projects"
@@ -29,7 +30,8 @@ class ProjectList(ListView):
     def get_queryset(self):
         queryset = super().get_queryset()
         if self.search_value:
-            queryset = queryset.filter(Q(summary__icontains=self.search_value) | Q(description__icontains=self.search_value))
+            queryset = queryset.filter(
+                Q(summary__icontains=self.search_value) | Q(description__icontains=self.search_value))
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -77,7 +79,6 @@ class ProjectAddParticipants(PermissionRequiredMixin, CreateView):
 
     permission_required = 'webapp.add_participants'
 
-
     def post(self, request, *args, **kwargs):
         project = get_object_or_404(Project, pk=kwargs['pk'])
         participants = self.request.POST.getlist('participants')
@@ -111,7 +112,3 @@ class ProjectDelete(PermissionRequiredMixin, DeleteView):
     def has_permission(self):
         project = Project.objects.get(pk=self.kwargs['pk'])
         return super().has_permission() and self.request.user == project.author
-
-
-
-

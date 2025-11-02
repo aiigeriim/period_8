@@ -13,7 +13,6 @@ class RegisterView(CreateView):
     model = User
     form_class = MyUserCreationForm
 
-
     def form_valid(self, form):
         user = form.save()
         login(self.request, user)
@@ -26,4 +25,3 @@ class RegisterView(CreateView):
         if not next:
             next = reverse("webapp:project_list")
         return next
-

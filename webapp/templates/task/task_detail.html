@@ -18,7 +18,9 @@
   </div>
   <div class="card-footer bg-transparent border-success">
       {% if user.is_authenticated %}
+          {% if perms.webapp.change_task and user == task.project.author %}
                <a href="{% url 'webapp:update' task.pk %}" title="Редактировать"><i class="bi bi-pencil"></i></a>
+              {% endif %}
               <a href="{% url 'webapp:delete' task.pk %}" title="Удалить"><i class="bi bi-x-square"></i></a>
       {% endif %}
   </div>

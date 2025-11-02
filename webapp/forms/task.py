@@ -4,7 +4,6 @@ from webapp.models import Task
 
 
 class TaskForm(BaseForm):
-
     class Meta:
         model = Task
         fields = ['summary', 'description', 'status', 'types']
@@ -23,4 +22,3 @@ class TaskForm(BaseForm):
         if len(summary) < 3:
             raise forms.ValidationError('Введите полное название задачи')
         return summary
-

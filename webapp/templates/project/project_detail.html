@@ -7,61 +7,70 @@
 {% block content %}
 
     <div class="card text-success mb-3">
-  <div class="card-header border-success">Проект № {{ project.id }}</div>
-  <div class="card-body text-success">
-    <h5 class="card-title">{{ project.summary }}</h5>
-    <p class="card-text">{{ project.description }}</p>
-  </div>
-  <div class="card-footer bg-transparent border-success">
-         <small>Дата начала: {{ project.start_date }}</small><br>
-      <small>Дата окончания: {{ project.end_date }}</small><br>
-        <small>Автор: {{ project.author.username }}</small><br>
-  <small>Участники:
-  {% for p in project.participants.all %} {% if forloop.last %} {{ p }}. {% else %} {{ p }}, {% endif %} {% endfor %}</small><br>
-      <hr>
-      {% if user.is_authenticated %}
-{% if perms.webapp.change_project and user == project.author %}
-      <a href="{% url 'webapp:update_project' project.pk %}" title="Редактировать проект"><i class="bi bi-pencil"></i></a>
-      {% endif %}
-          {% if perms.webapp.add_task and user == project.author %}
-    <a href="{% url 'webapp:create' project.pk %}" title="Добавить новую задачу"><i class="bi bi-plus-square text-success"></i></a>
-    {% endif %}
-     {% if perms.webapp.delete_project and user == project.author %}
-      <a href="{% url 'webapp:delete_project' project.pk %}" title="Удалить проект"><i class="bi bi-x-square text-danger"></i></a>
-         {% endif %}
-          {% if perms.webapp.add_participants and user == project.author %}
-          <a href="{% url 'webapp:project_add_participants' project.pk %}" title="Добавить участника"><i class="bi bi-person-plus"></i></a>
-       {% endif %}
-          {% endif %}
-  </div>
-</div>
-       <h5 class="text-success" style="text-align: center">Задачи</h5>
+        <div class="card-header border-success">Проект № {{ project.id }}</div>
+        <div class="card-body text-success">
+            <h5 class="card-title">{{ project.summary }}</h5>
+            <p class="card-text">{{ project.description }}</p>
+        </div>
+        <div class="card-footer bg-transparent border-success">
+            <small>Дата начала: {{ project.start_date }}</small><br>
+            <small>Дата окончания: {{ project.end_date }}</small><br>
+            <small>Автор: {{ project.author.username }}</small><br>
+            <small>Участники:
+                {% for p in project.participants.all %} {% if forloop.last %} {{ p }}. {% else %} {{ p }},
+                {% endif %} {% endfor %}</small><br>
+            <hr>
+            {% if user.is_authenticated %}
+                {% if perms.webapp.change_project and user == project.author %}
+                    <a href="{% url 'webapp:update_project' project.pk %}" title="Редактировать проект"><i
+                            class="bi bi-pencil"></i></a>
+                {% endif %}
+                {% if perms.webapp.add_task and user == project.author %}
+                    <a href="{% url 'webapp:create' project.pk %}" title="Добавить новую задачу"><i
+                            class="bi bi-plus-square text-success"></i></a>
+                {% endif %}
+                {% if perms.webapp.delete_project and user == project.author %}
+                    <a href="{% url 'webapp:delete_project' project.pk %}" title="Удалить проект"><i
+                            class="bi bi-x-square text-danger"></i></a>
+                {% endif %}
+                {% if perms.webapp.add_participants and user == project.author %}
+                    <a href="{% url 'webapp:project_add_participants' project.pk %}" title="Добавить участника"><i
+                            class="bi bi-person-plus"></i></a>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+    <h5 class="text-success" style="text-align: center">Задачи</h5>
     <div class="row mt-3">
         {% for task in tasks %}
             <div class="card border-success m-3" style="max-width: 18rem;">
-  <div class="card-body text-success">
-    <h5 class="card-title">{{ task.summary }}</h5>
-      <small class="card-text">Тип(ы):
-            {% for type in task.types.all %} {% if forloop.last %} {{ type }}. {% else %} {{ type }}, {% endif %} {% endfor %}</small><br>
-        <small class="card-text">Статус: {{ task.status.name }}</small><br>
-  <small class="card-text">Автор: {{ task.author.username }}</small>
+                <div class="card-body text-success">
+                    <h5 class="card-title">{{ task.summary }}</h5>
+                    <small class="card-text">Тип(ы):
+                        {% for type in task.types.all %} {% if forloop.last %} {{ type }}. {% else %} {{ type }},
+                        {% endif %} {% endfor %}</small><br>
+                    <small class="card-text">Статус: {{ task.status.name }}</small><br>
+                    <small class="card-text">Автор: {{ task.author.username }}</small>
 
-  </div>
-  <div class="card-footer bg-transparent border-success">
-       <a href="{% url 'webapp:detail' task.pk %}" title="Подробности"><i class="bi bi-info-square"></i></a>
-      {% if user.is_authenticated %}
-          {% if perms.webapp.change_task and user == task.project.author %}
-      <a href="{% url 'webapp:update' task.pk %}" title="Редактировать"><i class="bi bi-pencil"></i></a>
-              {% endif %}
-          {% if perms.webapp.delete_task and user == task.project.author %}
-      <a href="{% url 'webapp:delete' task.pk %}" title="Удалить"><i class="bi bi-x-square text-danger"></i></a>
-      {% endif %}
-          {% endif %}
-  </div>
-</div>
+                </div>
+                <div class="card-footer bg-transparent border-success">
+                    <a href="{% url 'webapp:detail' task.pk %}" title="Подробности"><i
+                            class="bi bi-info-square"></i></a>
+                    {% if user.is_authenticated %}
+                        {% if perms.webapp.change_task and user == task.project.author %}
+                            <a href="{% url 'webapp:update' task.pk %}" title="Редактировать"><i
+                                    class="bi bi-pencil"></i></a>
+                        {% endif %}
+                        {% if perms.webapp.delete_task and user == task.project.author %}
+                            <a href="{% url 'webapp:delete' task.pk %}" title="Удалить"><i
+                                    class="bi bi-x-square text-danger"></i></a>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
         {% empty %}
-<p>Задач пока нет</p>
-     {% endfor %}
+            <p>Задач пока нет</p>
+        {% endfor %}
     </div>
 
 {% endblock %}
