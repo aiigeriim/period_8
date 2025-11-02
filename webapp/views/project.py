@@ -1,7 +1,7 @@
 from urllib.parse import urlencode
 
 from django.contrib.auth import get_user_model
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
@@ -20,7 +20,7 @@ class ProjectList(ListView):
     model = Project
     ordering = '-created_at'
     paginate_by = 5
-    paginate_orphan = 1
+    paginate_orphan = 2
 
     def dispatch(self, request, *args, **kwargs):
         self.form = self.get_search_form()
@@ -70,8 +70,30 @@ class ProjectCreate(PermissionRequiredMixin, CreateView):
         form.instance.participants.add(self.request.user)
         return super().form_valid(form)
 
+
+
+class ProjectUpdate(PermissionRequiredMixin, UpdateView):
+    model = Project
+    template_name = "project/update_project.html"
+    form_class = ProjectForm
+
+    permission_required = 'webapp.change_project'
+
     def has_permission(self):
-        return super().has_permission()
+        project = get_object_or_404(Project, pk=self.kwargs['pk'])
+        return super().has_permission() and self.request.user in project.participants.all()
+
+
+class ProjectDelete(PermissionRequiredMixin, DeleteView):
+    template_name = "project/delete_project.html"
+    model = Project
+    success_url = reverse_lazy('webapp:project_list')
+
+    permission_required = 'webapp.delete_project'
+
+    def has_permission(self):
+        project = get_object_or_404(Project, pk=self.kwargs['pk'])
+        return super().has_permission() and self.request.user in project.participants.all()
 
 
 class ProjectAddParticipants(PermissionRequiredMixin, UpdateView):
@@ -79,7 +101,7 @@ class ProjectAddParticipants(PermissionRequiredMixin, UpdateView):
     form_class = ProjectParticipantsForm
     model = Project
 
-    permission_required = 'webapp.add_participants'
+    permission_required = 'auth.change_user'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -93,26 +115,5 @@ class ProjectAddParticipants(PermissionRequiredMixin, UpdateView):
         return HttpResponseRedirect(project.get_absolute_url())
 
     def has_permission(self):
-        return super().has_permission()
-
-
-class ProjectUpdate(PermissionRequiredMixin, UpdateView):
-    model = Project
-    template_name = "project/update_project.html"
-    form_class = ProjectForm
-
-    permission_required = 'webapp.change_project'
-
-    def has_permission(self):
-        return super().has_permission()
-
-
-class ProjectDelete(PermissionRequiredMixin, DeleteView):
-    template_name = "project/delete_project.html"
-    model = Project
-    success_url = reverse_lazy('webapp:project_list')
-
-    permission_required = 'webapp.delete_project'
-
-    def has_permission(self):
-        return super().has_permission()
+        project = get_object_or_404(Project, pk=self.kwargs['pk'])
+        return super().has_permission() and self.request.user in project.participants.all()
